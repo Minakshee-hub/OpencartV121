@@ -6,6 +6,7 @@ C:\Workspaces\Selenium\OpencartV121\src\test\java\pageObjects\MyAccountPage.java
 C:\Workspaces\Selenium\OpencartV121\src\test\java\testBase\BaseClass.java
 C:\Workspaces\Selenium\OpencartV121\src\test\java\testCases\TC001_AccountRegistrationTest.java
 C:\Workspaces\Selenium\OpencartV121\src\test\java\testCases\TC003_LoginDDT.java
+C:\Workspaces\Selenium\OpencartV121\src\test\java\testCases\TC004_Search.java
 C:\Workspaces\Selenium\OpencartV121\src\test\java\testCases\TC_002LoginTest.java
 C:\Workspaces\Selenium\OpencartV121\src\test\java\utilities\DataProviders.java
 C:\Workspaces\Selenium\OpencartV121\src\test\java\utilities\ExcelUtility.java

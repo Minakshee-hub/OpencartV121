@@ -9,50 +9,40 @@ import pageObjects.MyAccountPage;
 import testBase.BaseClass;
 
 public class TC_002LoginTest extends BaseClass {
-	
-	@Test(groups={"Sanity","Master",})
+	@Test(groups={"Sanity","Master"})
 	public void verify_login()
 	{
+		logger.info("***Starting TC002_LoginTest**... ");
 		
-		logger.info("***** Starting TC_002LoginTest ******");
 		try {
-		//HomePage
+		//1.HomePage
 		HomePage hp=new HomePage(driver);
 		hp.ClickMyAccount();
 		hp.ClickLogin();
 		
-		//Login
+		//2.LoginPage
 		LoginPage lp=new LoginPage(driver);
 		lp.setEmail(p.getProperty("email"));
 		lp.setPassword(p.getProperty("password"));
 		lp.clickLogin();
 		
-		Thread.sleep(2000);
+		//3.MyAccountPage
 		
-		//MyAccount
 		MyAccountPage macc=new MyAccountPage(driver);
-		boolean targetPage=macc.isMyAccountPageExists();
+		boolean targetPage=macc.isMyAccountPageExists(); //it returns boolean value
 		
-		Assert.assertTrue(targetPage); //Assert.assertEquals(targetPage, true,"Login failed");
+		//Validation
+		
+		//Assert.assertEquals(targetPage, true, "Login Failed");
+		//OR
+		Assert.assertTrue(targetPage);
 		}
-		catch(Exception e)
-		{
+		catch(Exception e) {
+			
 			Assert.fail();
 		}
 		
-		logger.info("***** Finished TC_002LoginTest ******");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		logger.info("***Finished TC002_LoginTest**... ");
 		
 	}
-
 }

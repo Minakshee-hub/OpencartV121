@@ -34,129 +34,112 @@ public class BaseClass {
 	public Logger logger;
 	public Properties p;
 	
-	
-	@BeforeClass(groups= {"Sanity","Regression","Master"})
 	@Parameters({"os","browser"})
-	public void setup(String os, String br) throws IOException
-	{
-		//Loading config.properties file
+	@BeforeClass(groups= {"Sanity","Regression","Master"})
+	
+	public void setup(String os,String br) throws IOException {
+		
+		//Loading confid.properties file
 		FileReader file=new FileReader("./src//test//resources//config.properties");
 		p=new Properties();
 		p.load(file);
 		
+		logger=LogManager.getLogger(this.getClass()); //log4j2//log file will be stored into logger variable
 		
-		logger=LogManager.getLogger(this.getClass());  //log4j2
-		
-		if(p.getProperty("execution_env").equalsIgnoreCase("remote"));
-		{
+		if(p.getProperty("execution_env").equalsIgnoreCase("remote")) {
+			
 			DesiredCapabilities capabilities=new DesiredCapabilities();
 			
-			//os
-			if (os.equalsIgnoreCase("windows"))
+			//If OS 
+			if(os.equalsIgnoreCase("windows")) 
 			{
-				capabilities.setPlatform(Platform.WIN11);
+				capabilities.setPlatform(Platform.WIN10);
 			}
-			else if (os.equalsIgnoreCase("mac"));
+			else if(os.equalsIgnoreCase("mac"))
 			{
-				capabilities.setPlatform(Platform.MAC);
+				capabilities.setPlatform(Platform.MAC);	
+			}
+			else {
+				System.out.println("No matching OS");
+				return; //it will exit from program
 			}
 			
+			//Browser
 			
+			switch(br.toLowerCase()) {
 			
-			//browser
-			switch(br.toLowerCase())
-			{
-			case "chrome": capabilities.setBrowserName("chrome"); break;
-			case "edge": capabilities.setBrowserName("MicrosoftEdge"); break;
-			default: System.out.println("No matching broser"); break;
+			case "chrome": capabilities.setBrowserName("chrome");break;
+			case "edge": capabilities.setBrowserName("MicrosoftEdge");break;
+			default: System.out.println("No matching browser"); return;
+			
 			}
+			
 			driver=new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),capabilities);
-		
 		}
-		if(p.getProperty("execution_env").equalsIgnoreCase("local"));
-		{
-			switch(br.toLowerCase())
+		
+		if(p.getProperty("execution_env").equalsIgnoreCase("local")) {
+			
+			switch(br.toLowerCase())  
 			{
 			case "chrome" : driver=new ChromeDriver(); break;
 			case "edge" : driver=new EdgeDriver(); break;
 			case "firefox" : driver=new FirefoxDriver(); break;
-			default : System.out.println("Invalid browser name"); return;
-			}
+			default: System.out.println("Invalid browser name..");return;
 			
-		}
-	
-	
-		
-		switch(br.toLowerCase())
-		{
-		case "chrome" : driver=new ChromeDriver(); break;
-		case "edge" : driver=new EdgeDriver(); break;
-		case "firefox" : driver=new FirefoxDriver(); break;
-		default : System.out.println("Invalid browser name"); return;
+			}
 		}
 		
-		
-		driver.manage().deleteAllCookies();
+		driver.manage().deleteAllCookies(); //it will delete all the cookies from web page
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-		driver.get(p.getProperty("appURL"));  //reading url from properties file
+		
+	//	driver.get("https://tutorialsninja.com/demo/");
+		
+		driver.get(p.getProperty("appURL")); //reading url from properties file
+		
 		driver.manage().window().maximize();
+		
+		
 	}
-
+	
 	@AfterClass(groups= {"Sanity","Regression","Master"})
-	public void tearDown()
-	{
+    public void tearDown() {
+		
 		driver.quit();
 	}
 	
-	public String randomeString()
-	{
+    public String randomeString() {
 		
-		String generatedstring=RandomStringUtils.randomAlphabetic(5);
-		return generatedstring;
-    }
-	
-	
-	public String randomeNumber()
-	{
-		
-		String generatednumber=RandomStringUtils.randomNumeric(10);
-		return generatednumber;
-    }
-	
-	
-	public String randomeAlphaNumeric()
-	{
-		String generatedstring=RandomStringUtils.randomAlphabetic(5);
-		String generatednumber=RandomStringUtils.randomNumeric(10);
-		return (generatedstring+"@"+generatednumber);
-    }
-	
-	public String captureScreen(String tname) 
-	{
-		String timestamp=new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
-		
-		TakesScreenshot takesscrenshot=(TakesScreenshot)driver;
-		File sourceFile=takesscrenshot.getScreenshotAs(OutputType.FILE);
-		
-		String targetFilePath=System.getProperty("user.dir")+"\\screenshots"+tname+"_"+timestamp+".png";
-		File targetFile=new File(targetFilePath);
-		sourceFile.renameTo(targetFile);
-		
-		return targetFilePath;
+		String generatedString=RandomStringUtils.randomAlphabetic(5); //it will internally generate one random string and return it
+		return generatedString;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+    public String randomeNumber() {
+		
+		String generatedNumber=RandomStringUtils.randomNumeric(9); 
+		return generatedNumber;
+	}
+    
+    public String randomeAlphaNumeric() {
+		
+    	String generatedString=RandomStringUtils.randomAlphabetic(3);
+		String generatedNumber=RandomStringUtils.randomNumeric(3); 
+		return (generatedString+"@"+generatedNumber);
+	}
+    
+    public String captureScreen(String tname) {
+    	
+    	String timeStamp=new SimpleDateFormat("yyyyMMDDhhmmss").format(new Date());
+    	
+    	TakesScreenshot takesScreenshot=(TakesScreenshot)driver;
+    	File sourceFile=takesScreenshot.getScreenshotAs(OutputType.FILE);
+    	
+    	String targetFilePath=System.getProperty("user.dir") + "\\screenshots\\" + tname + "_" + timeStamp + ".png";
+    	File targetFile=new File(targetFilePath);
+    	
+    	sourceFile.renameTo(targetFile);
+    	
+    	return targetFilePath;
+    	
+    }
 
 }

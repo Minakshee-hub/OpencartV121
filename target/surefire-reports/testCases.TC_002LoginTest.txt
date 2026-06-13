@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: testCases.TC_002LoginTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 1, Time elapsed: 0.087 s <<< FAILURE! -- in testCases.TC_002LoginTest
-testCases.TC_002LoginTest.initializationError -- Time elapsed: 0.087 s <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 1, Time elapsed: 0.035 s <<< FAILURE! -- in testCases.TC_002LoginTest
+testCases.TC_002LoginTest.initializationError -- Time elapsed: 0.035 s <<< ERROR!
 org.testng.TestNGException: 
 
 Parameter 'os' is required by BeforeClass on method setup but has not been marked @Optional or defined
